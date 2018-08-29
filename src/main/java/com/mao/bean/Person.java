@@ -1,6 +1,8 @@
 package com.mao.bean;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,15 +13,20 @@ import java.util.Map;
  * 将配置文件中配置的每一个属性的值，映射到这个组件中
  *
  * @ConfigurationProperties()，告诉spring boot将本类中的所有属性和配置文件中相关的配置进行绑定；
- * prefix = "Person"哪个下边的所有属性进行一一映射
+ * prefix = "Person"配置文件中哪个下边的所有属性进行一一映射
  * <p>
  * 只有这个组件是容器中的组件，才能使用容器提供的功能；
+ * @ConfigurationProperties()默认从全局配置文件中获取值
  */
+@PropertySource(value = {"classpath:person.properties"})
 @Component
-@ConfigurationProperties(prefix = "person")
+@ConfigurationProperties(prefix = "person")  //批量绑定
 public class Person {
+    //    @Value("${person.last-name}")  //单个绑定
     private String lastName;
+    //    @Value("#{11*2}")
     private int age;
+    //    @Value("true")
     private boolean boss;
     private Date birth;
     private Map<String, Object> maps;
